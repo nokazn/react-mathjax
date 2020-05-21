@@ -7,6 +7,13 @@ const types = {
 }
 
 class Node extends React.Component {
+  constructor(props) {
+    super(props)
+    this.nodeRef = null
+    this.setNodeRef = (element) => {
+      this.nodeRef = element
+    }
+  }
   /**
    * Render the math once the node is mounted
    */
@@ -25,7 +32,7 @@ class Node extends React.Component {
   /**
    * Prevent update when the source has not changed
    */
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
+  shouldComponentUpdate(nextProps) {
     return (
       nextProps.children !== this.props.children ||
       nextProps.inline !== this.props.inline
@@ -64,7 +71,7 @@ class Node extends React.Component {
     const { MathJax } = this.context
 
     if (!MathJax) {
-      throw Error("Could not find MathJax while attempting typeset! Probably MathJax script hasn't been loaded or MathJax.Context is not in the hierarchy")
+      throw Error('Could not find MathJax while attempting typeset! Probably MathJax script hasn\'t been loaded or MathJax.Context is not in the hierarchy')
     }
 
     const text = this.props.children
@@ -79,7 +86,7 @@ class Node extends React.Component {
 
     MathJax.Hub.Queue(
       MathJax.Hub.Reprocess(this.script, this.props.onRender)
-    );
+    )
   }
 
   /**
@@ -92,7 +99,7 @@ class Node extends React.Component {
     if (!this.script) {
       this.script = document.createElement('script')
       this.script.type = `math/${type}; ${inline ? '' : 'mode=display'}`
-      this.refs.node.appendChild(this.script)
+      this.nodeRef.appendChild(this.script)
     }
 
     if ('text' in this.script) {
@@ -104,7 +111,7 @@ class Node extends React.Component {
   }
 
   render() {
-    return React.createElement('span', { ref: 'node' })
+    return React.createElement('span', { ref: this.setNodeRef })
   }
 }
 
