@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { MathJaxContext } from './Context'
 
 const types = {
   ascii: 'asciimath',
@@ -121,10 +122,7 @@ Node.propTypes = {
   onRender: PropTypes.func
 }
 
-Node.contextTypes = {
-  MathJax: PropTypes.object,
-  input: PropTypes.string
-}
+Node.contextType = MathJaxContext
 
 Node.defaultProps = {
   inline: false,

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "babel --out-dir ./lib ./src",
-    "build:dev": "browserify -t [ babelify --presets [ es2015 react ] ] ./example/src/index.js -o ./example/bundle.js",
+    "build:dev": "npm run build && browserify -t [ babelify --presets [ es2015 react ] ] ./example/src/index.js -o ./example/bundle.js",
     "serve:dev": "http-server ./exapmle"
   },
   "keywords": [

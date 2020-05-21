@@ -4,6 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import loadScript from 'load-script'
 
+export const MathJaxContext = React.createContext()
 /**
  * Context for loading MathJax
  */
@@ -12,13 +13,6 @@ class Context extends React.Component {
     super(props)
     this.state = { loaded: false }
     this.onLoad = this.onLoad.bind(this)
-  }
-
-  getChildContext() {
-    return {
-      MathJax: typeof MathJax === 'undefined' ? undefined : MathJax,
-      input: this.props.input
-    }
   }
 
   componentDidMount() {
@@ -52,9 +46,9 @@ class Context extends React.Component {
       })
     })
 
-    MathJax.Hub.Register.MessageHook("Math Processing Error", (message) => {
+    MathJax.Hub.Register.MessageHook('Math Processing Error', (message) => {
       if (this.props.onError) {
-        this.props.onError(MathJax, message);
+        this.props.onError(MathJax, message)
       }
     })
   }
@@ -66,7 +60,15 @@ class Context extends React.Component {
 
     const children = this.props.children
 
-    return React.Children.only(children)
+    return (
+      <MathJaxContext.Provider
+        value={{
+          MathJax: typeof MathJax === 'undefined' ? undefined : MathJax,
+          input: this.props.input
+        }}>
+        {children}
+      </MathJaxContext.Provider>
+    )
   }
 }
 
@@ -81,10 +83,10 @@ Context.propTypes = {
   noGate: PropTypes.bool
 }
 
-Context.childContextTypes = {
-  MathJax: PropTypes.object,
-  input: PropTypes.string
-}
+// Context.childContextTypes = {
+//   MathJax: PropTypes.object,
+//   input: PropTypes.string
+// }
 
 Context.defaultProps = {
   script: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML',
