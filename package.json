@@ -8,7 +8,9 @@
     "url": "git+https://github.com/wko27/react-mathjax.git"
   },
   "scripts": {
-    "build": "babel --out-dir ./lib ./src"
+    "build": "babel --out-dir ./lib ./src",
+    "build:dev": "browserify -t [ babelify --presets [ es2015 react ] ] ./example/src/index.js -o ./example/bundle.js",
+    "serve:dev": "http-server ./exapmle"
   },
   "keywords": [
     "math",
@@ -42,6 +44,8 @@
     "babelify": "^8.0.0",
     "browserify": "^14.5.0",
     "eslint": "^4.10.0",
-    "eslint-plugin-react": "^7.4.0"
+    "eslint-plugin-react": "^7.4.0",
+    "http-server": "^0.12.3",
+    "react-dom": "^16.13.1"
   }
 }
